@@ -1,18 +1,17 @@
-import { env } from "$/custom.env"
+import { env } from "src/services/custom.env"
 import { Field, ID, ObjectType } from "@nestjs/graphql"
 import bcrypt from "bcrypt"
 import { sign } from "jsonwebtoken"
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
-import { TodoEntity } from "../todo/todo.entity"
+import { Todo } from "../todo/todo.entity"
 
 @ObjectType()
-@Entity("user")
-export class UserEntity {
+export class UserHollow {
 	@Field(() => ID)
 	@PrimaryGeneratedColumn("uuid")
 	id: string
 
-	@Field(() => String)
+	@Field()
 	@Column({ type: "varchar", length: 100 })
 	firstName: string
 
@@ -20,22 +19,18 @@ export class UserEntity {
 	@Column({ type: "varchar", length: 100, nullable: true })
 	middleName?: string
 
-	@Field(() => String)
+	@Field()
 	@Column({ type: "varchar", length: 100 })
 	lastName: string
 
-	@Field(() => String)
+	@Field()
 	@Column({ type: "varchar", length: 100, unique: true })
 	email: string
 
 	@Column({ type: "text" })
 	password: string
 
-	@Field(() => [TodoEntity])
-	@OneToMany(() => TodoEntity, ({ ownerUser }) => ownerUser)
-	todos: TodoEntity[]
-
-	@Field(() => String)
+	@Field()
 	get accessToken(): string {
 		return sign({ id: this.id, email: this.email }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRY })
 	}
@@ -48,4 +43,12 @@ export class UserEntity {
 	comparePassword(attemptPassword: string): Promise<boolean> {
 		return bcrypt.compare(attemptPassword, this.password)
 	}
+}
+
+@ObjectType()
+@Entity()
+export class User extends UserHollow {
+	@Field(() => [Todo])
+	@OneToMany(() => Todo, ({ user }) => user)
+	todos: Todo[]
 }

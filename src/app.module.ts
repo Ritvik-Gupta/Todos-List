@@ -1,5 +1,5 @@
 import { env } from "$/custom.env"
-import { IContext } from "$/custom.types"
+import { gqlFormatError, IContext } from "$/custom.types"
 import { Module } from "@nestjs/common"
 import { GraphQLModule } from "@nestjs/graphql"
 import { TypeOrmModule } from "@nestjs/typeorm"
@@ -7,6 +7,7 @@ import { AppController } from "./app.controller"
 import { AppService } from "./app.service"
 import { TodoModule } from "./todo/todo.module"
 import { UserModule } from "./user/user.module"
+import { ViewModule } from "./view/view.module"
 
 @Module({
 	imports: [
@@ -20,9 +21,11 @@ import { UserModule } from "./user/user.module"
 		GraphQLModule.forRoot({
 			autoSchemaFile: "./schema.gql",
 			context: ({ req }): IContext => ({ req }),
+			formatError: gqlFormatError,
 		}),
 		TodoModule,
 		UserModule,
+		ViewModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

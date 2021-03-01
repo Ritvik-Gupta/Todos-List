@@ -1,4 +1,6 @@
-import "dotenv/config"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 export namespace env {
 	export const PORT = process.env.PORT!
@@ -6,4 +8,6 @@ export namespace env {
 	export const JWT_EXPIRY = process.env.JWT_EXPIRY!
 	export const HASH_SALT = parseInt(process.env.HASH_SALT!)
 	export const DATABASE_URL = process.env.DATABASE_URL!
+
+	export const VALIDATION_ERROR = "VALIDATION_ERROR"
 }

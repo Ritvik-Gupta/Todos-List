@@ -1,11 +1,14 @@
 import { Field, InputType } from "@nestjs/graphql"
-import { UserEntity } from "../user.entity"
+import { IsEmail, MinLength } from "class-validator"
+import { User } from "../user.entity"
 
 @InputType()
-export class UserLoginInput implements Partial<UserEntity> {
-	@Field(() => String)
+export class UserLoginInput implements Partial<User> {
+	@Field()
+	@IsEmail()
 	email: string
 
-	@Field(() => String)
+	@Field()
+	@MinLength(5)
 	password: string
 }

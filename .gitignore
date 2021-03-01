@@ -37,3 +37,7 @@ jest.config.ts
 # Code Based
 .env
 schema.gql
+.next
+next-env.d.ts
+tsconfig.json
+tsconfig.build.json

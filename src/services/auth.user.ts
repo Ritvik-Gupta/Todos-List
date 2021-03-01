@@ -1,4 +1,4 @@
-export interface IUser {
+export interface IAuthUser {
 	readonly id: string
 	readonly email: string
 }

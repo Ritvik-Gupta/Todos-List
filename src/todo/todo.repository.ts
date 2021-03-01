@@ -1,9 +1,9 @@
-import { BaseRepository } from "$/base.repository"
+import { BaseRepository } from "src/services/base.repository"
 import { EntityRepository } from "typeorm"
-import { TodoEntity } from "./todo.entity"
+import { Todo } from "./todo.entity"
 
-@EntityRepository(TodoEntity)
-export class TodoRepository extends BaseRepository<TodoEntity> {
+@EntityRepository(Todo)
+export class TodoRepository extends BaseRepository<Todo> {
 	constructor() {
 		super({ ifDefined: "ksnv", ifNotDefined: "kdnd" })
 	}

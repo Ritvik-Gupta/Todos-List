@@ -1,26 +1,27 @@
-import { AuthGuard } from "$/auth.guard"
-import { IContext } from "$/custom.types"
+import { AuthGuard } from "src/services/auth.guard"
+import { IContext } from "src/services/custom.types"
 import { UseGuards } from "@nestjs/common"
 import { Args, Context, Mutation, Query, Resolver } from "@nestjs/graphql"
 import { TodoInput } from "./dto/todo.input"
-import { TodoEntity } from "./todo.entity"
+import { Todo, TodoHollow } from "./todo.entity"
 import { TodoService } from "./todo.service"
+import { INormalizedPaths, Normalize } from "$/normalize.info"
 
-@Resolver(TodoEntity)
+@Resolver(Todo)
 export class TodoResolver {
 	constructor(private readonly todoService: TodoService) {}
 
-	@Query(() => [TodoEntity])
-	fetchAllTodos(): Promise<TodoEntity[]> {
-		return this.todoService.fetchAll()
+	@Query(() => [Todo])
+	fetchAllTodos(@Normalize.Paths() fieldPaths: INormalizedPaths): Promise<Todo[]> {
+		return this.todoService.fetchAll(fieldPaths)
 	}
 
-	@Mutation(() => TodoEntity)
+	@Mutation(() => TodoHollow)
 	@UseGuards(AuthGuard)
 	createTodo(
 		@Context() ctx: IContext,
 		@Args("todoInput") todoInput: TodoInput
-	): Promise<TodoEntity> {
+	): Promise<TodoHollow> {
 		return this.todoService.create(todoInput, ctx.user!.id)
 	}
 }

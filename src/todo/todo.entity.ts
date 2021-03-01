@@ -1,28 +1,31 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql"
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
-import { UserEntity } from "../user/user.entity"
+import { User } from "../user/user.entity"
 
 @ObjectType()
-@Entity("todo")
-export class TodoEntity {
+export class TodoHollow {
 	@Field(() => ID)
 	@PrimaryColumn({ type: "uuid" })
 	userId: string
 
-	@Field(() => String)
+	@Field()
 	@PrimaryColumn({ type: "varchar", length: 200 })
 	title: string
 
-	@Field(() => Date)
+	@Field()
 	@CreateDateColumn()
 	createdAt: Date
 
-	@Field(() => String)
+	@Field()
 	@Column({ type: "text" })
 	content: string
+}
 
-	@Field(() => UserEntity)
-	@ManyToOne(() => UserEntity, ({ todos }) => todos)
+@ObjectType()
+@Entity()
+export class Todo extends TodoHollow {
+	@Field()
+	@ManyToOne(() => User, ({ todos }) => todos)
 	@JoinColumn({ name: "userId", referencedColumnName: "id" })
-	ownerUser: UserEntity
+	user: User
 }

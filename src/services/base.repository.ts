@@ -1,4 +1,5 @@
-import { DeepPartial, FindConditions, Repository } from "typeorm"
+import { DeepPartial, FindConditions, Repository, SelectQueryBuilder } from "typeorm"
+import { INormalizedPaths } from "./normalize.info"
 
 export interface IRepositoryErrors {
 	ifDefined: string
@@ -23,5 +24,13 @@ export abstract class BaseRepository<T> extends Repository<T> {
 
 	createAndReturn(entity: DeepPartial<T>): Promise<T> {
 		return this.save(this.create(entity))
+	}
+
+	getPopulatedQuery(fieldPath: INormalizedPaths): SelectQueryBuilder<T> {
+		const query = this.createQueryBuilder(fieldPath.root)
+		fieldPath.relations.forEach(([joinField, joinAlias]) => {
+			query.leftJoinAndSelect(joinField, joinAlias)
+		})
+		return query
 	}
 }
