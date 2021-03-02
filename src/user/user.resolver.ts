@@ -32,7 +32,7 @@ export class UserResolver {
 	}
 
 	@Mutation(() => UserHollow)
-	register(@Args("userInput") userInput: UserInput): Promise<UserHollow> {
-		return this.userService.register(userInput)
+	register(@Args("registerInput") registerInput: UserInput): Promise<UserHollow> {
+		return this.userService.register(registerInput)
 	}
 }

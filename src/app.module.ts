@@ -1,4 +1,4 @@
-import { env } from "$/custom.env"
+import { ENV } from "$/custom.env"
 import { gqlFormatError, IContext } from "$/custom.types"
 import { Module } from "@nestjs/common"
 import { GraphQLModule } from "@nestjs/graphql"
@@ -13,13 +13,13 @@ import { ViewModule } from "./view/view.module"
 	imports: [
 		TypeOrmModule.forRoot({
 			type: "postgres",
-			url: env.DATABASE_URL,
+			url: ENV.DATABASE_URL,
 			synchronize: true,
 			logging: true,
 			autoLoadEntities: true,
 		}),
 		GraphQLModule.forRoot({
-			autoSchemaFile: "./schema.gql",
+			autoSchemaFile: "./src/schema.gql",
 			context: ({ req }): IContext => ({ req }),
 			formatError: gqlFormatError,
 		}),

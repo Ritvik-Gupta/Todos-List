@@ -1,4 +1,4 @@
-import { env } from "src/services/custom.env"
+import { ENV } from "src/services/custom.env"
 import { Field, ID, ObjectType } from "@nestjs/graphql"
 import bcrypt from "bcrypt"
 import { sign } from "jsonwebtoken"
@@ -32,12 +32,12 @@ export class UserHollow {
 
 	@Field()
 	get accessToken(): string {
-		return sign({ id: this.id, email: this.email }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRY })
+		return sign({ id: this.id, email: this.email }, ENV.JWT_SECRET, { expiresIn: ENV.JWT_EXPIRY })
 	}
 
 	@BeforeInsert()
 	async hashPassword(): Promise<void> {
-		this.password = await bcrypt.hash(this.password, env.HASH_SALT)
+		this.password = await bcrypt.hash(this.password, ENV.HASH_SALT)
 	}
 
 	comparePassword(attemptPassword: string): Promise<boolean> {

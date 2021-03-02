@@ -1,9 +1,13 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common"
 import { GqlExecutionContext } from "@nestjs/graphql"
 import { verify } from "jsonwebtoken"
-import { IAuthUser } from "./auth.user"
-import { env } from "./custom.env"
+import { ENV } from "./custom.env"
 import { IContext } from "./custom.types"
+
+export interface IAuthUser {
+	readonly id: string
+	readonly email: string
+}
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -17,6 +21,7 @@ export class AuthGuard implements CanActivate {
 	private validateToken(authorization: string): IAuthUser {
 		const [bearerToken, authToken] = authorization.split(" ")
 		if (bearerToken !== "Bearer") throw Error("Invalid Authorization Bearer Token")
-		return verify(authToken!, env.JWT_SECRET) as IAuthUser
+		if (authToken === undefined) throw Error("Invalid Authorization JWT Token")
+		return verify(authToken, ENV.JWT_SECRET) as IAuthUser
 	}
 }

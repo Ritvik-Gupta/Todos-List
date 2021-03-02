@@ -2,8 +2,8 @@ import { ValidationError } from "@nestjs/common"
 import { UserInputError } from "apollo-server-express"
 import { Request } from "express"
 import { GraphQLError } from "graphql"
-import { IAuthUser } from "./auth.user"
-import { env } from "./custom.env"
+import { IAuthUser } from "./auth.guard"
+import { ENV } from "./custom.env"
 
 export interface IContext {
 	req: Request
@@ -13,13 +13,13 @@ export interface IContext {
 type validationErrors = Record<"validation", ValidationError[]>
 
 export const pipeExceptionFactory = (validation: ValidationError[]) =>
-	new UserInputError(env.VALIDATION_ERROR, { validation })
+	new UserInputError(ENV.VALIDATION_ERROR, { validation })
 
 export const gqlFormatError = (error: GraphQLError) =>
-	error.message !== env.VALIDATION_ERROR
+	error.message !== ENV.VALIDATION_ERROR
 		? error
 		: {
-				message: env.VALIDATION_ERROR,
+				message: ENV.VALIDATION_ERROR,
 				extensions: {
 					validation: (error.extensions as validationErrors).validation.map(err => ({
 						field: err.property,

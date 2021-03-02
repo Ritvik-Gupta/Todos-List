@@ -1,9 +1,10 @@
 import { Module } from "@nestjs/common"
+import { RenderModule } from "nest-next"
+import Next from "next"
 import { ViewController } from "./view.controller"
-import { ViewService } from "./view.service"
 
 @Module({
+	imports: [RenderModule.forRootAsync(Next({ dev: true, dir: "./src/view" }), { viewsDir: null })],
 	controllers: [ViewController],
-	providers: [ViewService],
 })
 export class ViewModule {}

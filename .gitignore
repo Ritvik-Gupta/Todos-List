@@ -29,7 +29,7 @@ jest.config.ts
 *.sublime-workspace
 
 # IDE - VSCode
-.vscode/*
+.vscode
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
