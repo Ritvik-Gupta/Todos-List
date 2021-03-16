@@ -1,8 +1,8 @@
-import { pipeExceptionFactory } from "$/custom.types"
 import { ValidationPipe } from "@nestjs/common"
 import { NestFactory } from "@nestjs/core"
-import { ENV } from "src/services/custom.env"
 import { AppModule } from "./app.module"
+import { ENV } from "./services/custom.env"
+import { pipeExceptionFactory } from "./services/custom.types"
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)

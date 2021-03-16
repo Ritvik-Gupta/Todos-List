@@ -1,9 +1,9 @@
-import { ENV } from "src/services/custom.env"
+import { ENV } from "$/services"
 import { Field, ID, ObjectType } from "@nestjs/graphql"
 import bcrypt from "bcrypt"
 import { sign } from "jsonwebtoken"
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
-import { Todo } from "../todo/todo.entity"
+import { TodoEntity } from "./todo.entity"
 
 @ObjectType()
 export class UserHollow {
@@ -15,7 +15,7 @@ export class UserHollow {
 	@Column({ type: "varchar", length: 100 })
 	firstName: string
 
-	@Field(() => String, { nullable: true })
+	@Field({ nullable: true })
 	@Column({ type: "varchar", length: 100, nullable: true })
 	middleName?: string
 
@@ -46,9 +46,9 @@ export class UserHollow {
 }
 
 @ObjectType()
-@Entity()
-export class User extends UserHollow {
-	@Field(() => [Todo])
-	@OneToMany(() => Todo, ({ user }) => user)
-	todos: Todo[]
+@Entity({ name: "user" })
+export class UserEntity extends UserHollow {
+	@Field(() => [TodoEntity])
+	@OneToMany(() => TodoEntity, ({ user }) => user)
+	todos: TodoEntity[]
 }

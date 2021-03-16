@@ -1,0 +1,15 @@
+query GetAllUsers {
+	getAllUsers {
+		id
+		firstName
+		middleName
+		lastName
+		email
+		todos {
+			userId
+			title
+			createdAt
+			content
+		}
+	}
+}

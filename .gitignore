@@ -41,3 +41,4 @@ schema.gql
 next-env.d.ts
 tsconfig.json
 tsconfig.build.json
+codegen.json

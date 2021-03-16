@@ -1,5 +1,6 @@
+import { IIndexProps } from "#/pages/index"
+import { ITodoProps } from "#/pages/todo/[id]"
 import { Controller, Get, Render } from "@nestjs/common"
-import { IIndexProps } from "./pages"
 
 @Controller()
 export class ViewController {
@@ -7,5 +8,11 @@ export class ViewController {
 	@Render("index")
 	index(): IIndexProps {
 		return { title: "Hello from Server to Index" }
+	}
+
+	@Get("todo/:id")
+	@Render("todo/[id]")
+	todo(): ITodoProps {
+		return {}
 	}
 }

@@ -1,9 +1,9 @@
-import { BaseRepository } from "src/services/base.repository"
+import { UserEntity } from "$/entities"
+import { BaseRepository } from "$/services"
 import { EntityRepository } from "typeorm"
-import { User } from "./user.entity"
 
-@EntityRepository(User)
-export class UserRepository extends BaseRepository<User> {
+@EntityRepository(UserEntity)
+export class UserRepository extends BaseRepository<UserEntity> {
 	constructor() {
 		super({
 			ifDefined: "User with the given credentials is already Defined",

@@ -1,14 +1,14 @@
-import { INormalizedPaths } from "$/normalize.info"
+import { TodoEntity, TodoHollow } from "$/entities"
+import { INormalizedPaths } from "$/services"
 import { Injectable } from "@nestjs/common"
 import { TodoInput } from "./dto/todo.input"
-import { Todo, TodoHollow } from "./todo.entity"
 import { TodoRepository } from "./todo.repository"
 
 @Injectable()
 export class TodoService {
 	constructor(private readonly todoRepository: TodoRepository) {}
 
-	fetchAll(fieldPaths: INormalizedPaths): Promise<Todo[]> {
+	fetchAll(fieldPaths: INormalizedPaths): Promise<TodoEntity[]> {
 		return this.todoRepository.getPopulatedQuery(fieldPaths).getMany()
 	}
 

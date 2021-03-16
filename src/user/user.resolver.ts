@@ -1,28 +1,26 @@
-import { AuthGuard } from "$/auth.guard"
-import { IContext } from "$/custom.types"
-import { INormalizedPaths, Normalize } from "$/normalize.info"
+import { UserEntity, UserHollow } from "$/entities"
+import { AuthGuard, IContext, INormalizedPaths, Normalize } from "$/services"
 import { UseGuards } from "@nestjs/common"
 import { Args, Context, Mutation, Query, Resolver } from "@nestjs/graphql"
 import { UserLoginInput } from "./dto/user-login.input"
 import { UserInput } from "./dto/user.input"
-import { User, UserHollow } from "./user.entity"
 import { UserService } from "./user.service"
 
-@Resolver(User)
+@Resolver(() => UserEntity)
 export class UserResolver {
 	constructor(private readonly userService: UserService) {}
 
-	@Query(() => [User])
-	getAllUsers(@Normalize.Paths() fieldPaths: INormalizedPaths): Promise<User[]> {
+	@Query(() => [UserEntity])
+	getAllUsers(@Normalize.Paths() fieldPaths: INormalizedPaths): Promise<UserEntity[]> {
 		return this.userService.fetchAll(fieldPaths)
 	}
 
-	@Query(() => User, { nullable: true })
+	@Query(() => UserEntity, { nullable: true })
 	@UseGuards(AuthGuard)
 	currentUser(
 		@Context() context: IContext,
 		@Normalize.Paths() fieldPaths: INormalizedPaths
-	): Promise<User | undefined> {
+	): Promise<UserEntity | undefined> {
 		return this.userService.fetch(context.user!.id, fieldPaths)
 	}
 

@@ -4,7 +4,7 @@ import Next from "next"
 import { ViewController } from "./view.controller"
 
 @Module({
-	imports: [RenderModule.forRootAsync(Next({ dev: true, dir: "./src/view" }), { viewsDir: null })],
+	imports: [RenderModule.forRootAsync(Next({ dev: false, dir: "./client" }), { viewsDir: null })],
 	controllers: [ViewController],
 })
 export class ViewModule {}

@@ -56,18 +56,15 @@ export class Normalize {
 		const fieldJoins = allFieldJoins[allFieldJoins.length - 1]!
 		const fieldPaths: INormalizedPaths = { root: fieldJoins.parent, relations: [] }
 
-		const fieldJoinsQueue: INormalizedJoin[] = [fieldJoins]
-		while (fieldJoinsQueue.length > 0) {
-			const currentFieldJoins = fieldJoinsQueue.shift()!
+		const fieldJoinsStack: INormalizedJoin[] = [fieldJoins]
+		while (fieldJoinsStack.length > 0) {
+			const currentFieldJoins = fieldJoinsStack.pop()!
 			currentFieldJoins.joins.forEach(fieldJoins => {
-				fieldJoinsQueue.push({
+				fieldJoinsStack.push({
 					parent: `${currentFieldJoins.parent}_${fieldJoins.parent}`,
 					joins: fieldJoins.joins,
 				})
-				fieldPaths.relations.push([
-					`${currentFieldJoins.parent}.${fieldJoins.parent}`,
-					`${currentFieldJoins.parent}_${fieldJoins.parent}`,
-				])
+				fieldPaths.relations.push([currentFieldJoins.parent, fieldJoins.parent])
 			})
 		}
 

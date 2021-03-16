@@ -1,9 +1,9 @@
+import { TodoEntity } from "$/entities"
 import { Field, InputType } from "@nestjs/graphql"
-import { Todo } from "../todo.entity"
 import { Length, MinLength } from "class-validator"
 
 @InputType()
-export class TodoInput implements Partial<Todo> {
+export class TodoInput implements Partial<TodoEntity> {
 	@Field()
 	@Length(5, 100)
 	title: string

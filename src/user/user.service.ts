@@ -1,19 +1,19 @@
-import { INormalizedPaths } from "$/normalize.info"
+import { UserEntity, UserHollow } from "$/entities"
+import { INormalizedPaths } from "$/services"
 import { Injectable } from "@nestjs/common"
 import { UserLoginInput } from "./dto/user-login.input"
 import { UserInput } from "./dto/user.input"
-import { User, UserHollow } from "./user.entity"
 import { UserRepository } from "./user.repository"
 
 @Injectable()
 export class UserService {
 	constructor(private readonly userRepository: UserRepository) {}
 
-	fetchAll(fieldPaths: INormalizedPaths): Promise<User[]> {
+	fetchAll(fieldPaths: INormalizedPaths): Promise<UserEntity[]> {
 		return this.userRepository.getPopulatedQuery(fieldPaths).getMany()
 	}
 
-	fetch(userId: string, fieldPaths: INormalizedPaths): Promise<User | undefined> {
+	fetch(userId: string, fieldPaths: INormalizedPaths): Promise<UserEntity | undefined> {
 		return this.userRepository
 			.getPopulatedQuery(fieldPaths)
 			.where(`${fieldPaths.root}.id = :userId`, { userId })

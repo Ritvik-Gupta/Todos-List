@@ -28,8 +28,8 @@ export abstract class BaseRepository<T> extends Repository<T> {
 
 	getPopulatedQuery(fieldPath: INormalizedPaths): SelectQueryBuilder<T> {
 		const query = this.createQueryBuilder(fieldPath.root)
-		fieldPath.relations.forEach(([joinField, joinAlias]) => {
-			query.leftJoinAndSelect(joinField, joinAlias)
+		fieldPath.relations.forEach(([parent, child]) => {
+			query.leftJoinAndSelect(`${parent}.${child}`, `${parent}_${child}`)
 		})
 		return query
 	}
